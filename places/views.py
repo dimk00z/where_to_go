@@ -1,10 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 
 from django.http import HttpResponse
 from django.template import loader
 
 from .models import Place
+
+
+def place_detail(request, place_id):
+    place = get_object_or_404(Place, pk=place_id)
+
+    return HttpResponse(place.title)
 
 
 def show_index_page(request):
