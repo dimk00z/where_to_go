@@ -16,14 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from django.http import HttpResponse
-from django.template import loader
+from places.views import show_index_page
 
-def show_index_page(request):
-    template = loader.get_template('index.html')
-    context = {}
-    rendered_page = template.render(context, request)
-    return HttpResponse(rendered_page)
 
 urlpatterns = [
     path('', show_index_page),
