@@ -31,7 +31,7 @@ class Place(models.Model):
     )
 
     def __str__(self):
-        return f'{self.id}. {self.title}'
+        return f'{self.title}'
 
 
 class Image(models.Model):
@@ -53,4 +53,4 @@ class Image(models.Model):
         ordering = ['number']
 
     def __str__(self):
-        return f'{self.number}. {self.title}'
+        return f'{self.number} - {self.place}'
