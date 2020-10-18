@@ -1,40 +1,29 @@
 from django.shortcuts import render
 
-# Create your views here.
+
 from django.http import HttpResponse
 from django.template import loader
 
+from .models import Place
+
 
 def show_index_page(request):
-    places = {
-        "type": "FeatureCollection",
-        "features": [
-            {
-                "type": "Feature",
-                "geometry": {
+    places_geo_json = {"type": "FeatureCollection",
+                       "features": []}
+    for place in Place.objects.all():
+        places_geo_json["features"].append({
+            "type": "Feature",
+            "geometry": {
                     "type": "Point",
-                        "coordinates": [37.63, 55.793676]
-                },
-                "properties": {
-                    "title": "«Легенды Москвы",
-                    "placeId": "moscow_legends",
-                    "detailsUrl": "./static/places/moscow_legends.json"
-                }
+                    "coordinates": [place.lng, place.lat]
             },
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                        "coordinates": [37.65, 55.753676]
-                },
-                "properties": {
-                    "title": "Крыши24.рф",
-                    "placeId": "roofs24",
-                    "detailsUrl": "./static/places/roofs24.json"
-                }
+            "properties": {
+                "title": place.point_title,
+                "placeId": place.id,
+                "detailsUrl": "./static/places/moscow_legends.json"
             }
-        ]
-    }
+        })
+
     template = loader.get_template('index.html')
-    context = {'places': places}
+    context = {'places': places_geo_json}
     return HttpResponse(template.render(context, request))

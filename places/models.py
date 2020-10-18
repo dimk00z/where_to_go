@@ -4,9 +4,15 @@ from django.db import models
 
 
 class Place(models.Model):
+    point_title = models.CharField(
+        max_length=100,
+        verbose_name='Название точки',
+        help_text='При наведении курсором на точку будет отображаться это название.'
+    )
     title = models.CharField(
         max_length=100,
-        verbose_name='Название локации'
+        verbose_name='Название локации',
+        help_text='Заголовок в описании.'
     )
     description_short = models.TextField(
         max_length=400,
@@ -14,13 +20,13 @@ class Place(models.Model):
     )
     description_long = models.TextField(verbose_name='Длинное описание')
     lng = models.DecimalField(
-        max_digits=16,
-        decimal_places=14,
+        max_digits=17,
+        decimal_places=15,
         verbose_name='Долгота'
     )
     lat = models.DecimalField(
-        max_digits=16,
-        decimal_places=14,
+        max_digits=17,
+        decimal_places=15,
         verbose_name='Широта'
     )
 
@@ -41,7 +47,7 @@ class Image(models.Model):
     )
 
     number = models.PositiveIntegerField(
-        default=0, verbose_name='Позиция', db_index=True)
+        default=0, verbose_name='Порядковый номер',  db_index=True)
 
     class Meta:
         ordering = ['number']
