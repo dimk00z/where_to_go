@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.html import format_html
 from tinymce import models as tinymce_models
 # Create your models here.
@@ -36,6 +37,9 @@ class Place(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse('place_detail', kwargs={'id': self.id})
 
 
 class Image(models.Model):

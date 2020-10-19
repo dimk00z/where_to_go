@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-
+from django.urls import reverse
 
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
@@ -7,7 +7,7 @@ from django.template import loader
 from .models import Place, Image
 
 
-def place_detail(request, place_id):
+def place_detail_view(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
     images_for_place = Image.objects.filter(place=place_id)
     place_json = {
@@ -37,7 +37,7 @@ def show_index_page(request):
             "properties": {
                 "title": place.point_title,
                 "placeId": place.id,
-                "detailsUrl": f"places/{place.id}/"
+                "detailsUrl": reverse('place_detail', args=[place.id])
             }
         })
 
