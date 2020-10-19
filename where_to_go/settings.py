@@ -25,7 +25,7 @@ SECRET_KEY = 'n&#84xj$+hv##pr7s**g7s5&lw2wg5erbi_9atpwo9!eaqw93b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.17.235.62']
+ALLOWED_HOSTS = ['172.22.21.239']
 
 
 # Application definition
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'places.apps.PlacesConfig'
+    'places.apps.PlacesConfig',
+    'adminsortable2',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR.joinpath('static')]
-    
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
