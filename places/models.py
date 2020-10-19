@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.html import format_html
+from tinymce import models as tinymce_models
 # Create your models here.
 
 
@@ -14,11 +15,14 @@ class Place(models.Model):
         verbose_name='Название локации',
         help_text='Заголовок в описании.'
     )
-    description_short = models.TextField(
+    description_short = tinymce_models.HTMLField(
         max_length=400,
+        blank=True,
         verbose_name='Короткое описание'
     )
-    description_long = models.TextField(verbose_name='Длинное описание')
+    description_long = tinymce_models.HTMLField(
+        blank=True,
+        verbose_name='Длинное описание')
     lng = models.DecimalField(
         max_digits=17,
         decimal_places=15,
