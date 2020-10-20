@@ -4,7 +4,7 @@ Devman. Django. Lesson one.
 
 The site was made for [Django devman course](https://dvmn.org/modules/).
 
-You can browse it on [pythonanywhere](http://____.pythonanywhere.com/).
+You can browse it on [pythonanywhere](http://dimk00z.pythonanywhere.com/).
 
 ## How to install
 
@@ -27,7 +27,7 @@ python manage.py runserver 127.0.0.1:8000
 
 For data management use can use django admin console with WYSIWYG-editor and drug-n-drop images.
 
-You can test [admin console](http://.pythonanywhere.com/admin/) test:test - for login.
+You can test [admin console](http://dimk00z.pythonanywhere.com/admin/) test:test - for login.
 
 
 ## Data
