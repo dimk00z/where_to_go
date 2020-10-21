@@ -19,18 +19,20 @@ class Command(BaseCommand):
             return
 
         place_data = place_response.json()
+        # print(place_data)
         place, place_created = Place.objects.get_or_create(
             title=place_data['title'],
             defaults={'point_title': place_data['title'],
-                      'short_description': place_data['description_short'],
-                      'long_description': place_data['description_long'],
+                      'description_short': place_data['description_short'],
+                      'description_long': place_data['description_long'],
                       'lng': place_data['coordinates']['lng'],
                       'lat': place_data['coordinates']['lat'],
                       },
         )
 
         if not place_created:
-            self.stdout.write(self.style.WARNING('The object has already been created'))
+            self.stdout.write(self.style.WARNING(
+                'The object has already been created'))
             return
 
         imgs_responses = [requests.get(img) for img in place_data['imgs']]
@@ -41,9 +43,10 @@ class Command(BaseCommand):
 
             name = img_response.url.split('/')[-1]
             image = Image.objects.create(
-                title=place.title,
                 place=place,
             )
-            image.image.save(name, ContentFile(img_response.content), save=True)
+            image.image.save(name, ContentFile(
+                img_response.content), save=True)
 
-        self.stdout.write(self.style.SUCCESS(f'Successfully create place "{place}"'))
+        self.stdout.write(self.style.SUCCESS(
+            f'Successfully create place "{place}"'))
