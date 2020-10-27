@@ -125,3 +125,4 @@ dmypy.json
 .pyre/
 where_to_go/media/*
 media/*
+.vscode/

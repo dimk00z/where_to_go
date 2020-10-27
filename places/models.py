@@ -16,12 +16,12 @@ class Place(models.Model):
         verbose_name='Название локации',
         help_text='Заголовок в описании.'
     )
-    description_short = tinymce_models.HTMLField(
+    short_description = tinymce_models.HTMLField(
         max_length=400,
         blank=True,
         verbose_name='Короткое описание'
     )
-    description_long = tinymce_models.HTMLField(
+    long_description = tinymce_models.HTMLField(
         blank=True,
         verbose_name='Длинное описание')
     lng = models.DecimalField(
@@ -36,10 +36,10 @@ class Place(models.Model):
     )
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
     def get_absolute_url(self):
-        return reverse('place_detail', kwargs={'id': self.id})
+        return reverse('place_detail', args=[self.id])
 
 
 class Image(models.Model):
@@ -47,6 +47,7 @@ class Image(models.Model):
         Place,
         on_delete=models.CASCADE,
         verbose_name='Название локации',
+        related_name='images'
     )
     image = models.ImageField()
 
@@ -54,12 +55,11 @@ class Image(models.Model):
         default=0, verbose_name='Порядковый номер',  db_index=True)
 
     def get_preview_image(self):
-        try:
+        if self.image.url:
             return format_html('<img src="{}" height="200"/>',
                                self.image.url,
                                )
-        except ValueError:
-            return 'Место для превью файла'
+        return 'Место для превью файла'
 
     get_preview_image.short_description = 'Предизображение'
 

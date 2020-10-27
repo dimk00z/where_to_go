@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
+from django.shortcuts import render
+
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 
@@ -9,13 +11,13 @@ from .models import Place, Image
 
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
-    images_for_place = Image.objects.filter(place=place_id)
+    images_for_place = place.images.all()
     place_json = {
         'title': place.title,
         'imgs': [image.image.url for image in
                  images_for_place],
-        "description_short": place.description_short,
-        "description_long": place.description_long,
+        "description_short": place.short_description,
+        "description_long": place.long_description,
         "coordinates": {
             "lng": place.lng,
             "lat": place.lat
@@ -37,10 +39,8 @@ def show_index_page(request):
             "properties": {
                 "title": place.point_title,
                 "placeId": place.id,
-                "detailsUrl": reverse('place_detail', args=[place.id])
+                "detailsUrl": place.get_absolute_url()
             }
         })
 
-    template = loader.get_template('index.html')
-    context = {'places': places_geo_json}
-    return HttpResponse(template.render(context, request))
+    return render(request, 'index.html', context={'places': places_geo_json})

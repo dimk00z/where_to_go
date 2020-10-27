@@ -25,10 +25,3 @@ class PlaceAdmin(admin.ModelAdmin):
         ImageInline,
     ]
     search_fields = ['title', ]
-
-    # def headshot_image(self, obj):
-    #     return format_html('<img src="{url}" height="200"/>'.format(
-    #         url=self.image.url,
-    #     )
-    #     )
-    # headshot_image.short_description = 'Предизображение'

@@ -14,17 +14,14 @@ class Command(BaseCommand):
         self.stdout.write('Command execution')
         place_response = requests.get(options['place_json'])
 
-        if not place_response.ok:
-            self.stdout.write(self.style.ERROR('Request failed'))
-            return
+        place_response.raise_for_status()
 
         place_data = place_response.json()
-        # print(place_data)
         place, place_created = Place.objects.get_or_create(
             title=place_data['title'],
             defaults={'point_title': place_data['title'],
-                      'description_short': place_data['description_short'],
-                      'description_long': place_data['description_long'],
+                      'short_description': place_data['description_short'],
+                      'long_description': place_data['description_long'],
                       'lng': place_data['coordinates']['lng'],
                       'lat': place_data['coordinates']['lat'],
                       },
