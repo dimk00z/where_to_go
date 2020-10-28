@@ -17,7 +17,6 @@ class Place(models.Model):
         help_text='Заголовок в описании.'
     )
     short_description = tinymce_models.HTMLField(
-        max_length=400,
         blank=True,
         verbose_name='Короткое описание'
     )
