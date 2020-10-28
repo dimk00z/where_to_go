@@ -3,6 +3,7 @@ from django.core.files.base import ContentFile
 from django.core.management import BaseCommand
 
 from places.models import Place, Image
+from requests.exceptions import HTTPError, ConnectionError, Timeout
 
 
 class Command(BaseCommand):
@@ -32,18 +33,19 @@ class Command(BaseCommand):
                 'The object has already been created'))
             return
 
-        imgs_responses = [requests.get(img) for img in place_data['imgs']]
+        for img_url in place_data['imgs']:
+            try:
+                img_response = requests.get(img_url)
+                img_response.raise_for_status()
 
-        for img_response in imgs_responses:
-            if not img_response.ok:
-                continue
-
-            name = img_response.url.split('/')[-1]
-            image = Image.objects.create(
-                place=place,
-            )
-            image.image.save(name, ContentFile(
-                img_response.content), save=True)
-
+                name = img_response.url.split('/')[-1]
+                image = Image.objects.create(
+                    place=place,
+                )
+                image.image.save(name, ContentFile(
+                    img_response.content), save=True)
+            except (HTTPError, ConnectionError, Timeout) as ex:
+                self.stdout.write(self.style.WARNING(ex))
+                
         self.stdout.write(self.style.SUCCESS(
             f'Successfully create place "{place}"'))
