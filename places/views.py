@@ -12,7 +12,7 @@ from .models import Place, Image
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
     images_for_place = place.images.all()
-    place_json = {
+    place = {
         'title': place.title,
         'imgs': [image.image.url for image in
                  images_for_place],
@@ -23,7 +23,7 @@ def place_detail_view(request, place_id):
             "lat": place.lat
         }
     }
-    return JsonResponse(place_json, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+    return JsonResponse(place, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
 
 def show_index_page(request):
